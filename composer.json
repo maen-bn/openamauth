@@ -1,5 +1,5 @@
 {
-    "name": "maenbn/OpenAmAuth",
+    "name": "maenbn/openamauth",
     "description": "OpemAmAuth is a provider for adding an OpenAM or OpenSSO driver to your authentication system in Laravel 5",
     "keywords": ["laravel", "framework", "opemam auth", "openam authentication", "openam", "OpenAM", "auth",
       "authentication", "OpenAmAuth", "Laravel OpenAmAuth", "Laravel-OpenAmAuth", "opensso", "OpenSSO",
