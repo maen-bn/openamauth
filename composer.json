@@ -1,6 +1,6 @@
 {
     "name": "maenbn/openamauth",
-    "description": "OpemAmAuth is a provider for adding an OpenAM or OpenSSO driver to your authentication system in Laravel 5",
+    "description": "OpemAmAuth is a provider for adding an OpenAM or OpenSSO driver to your authentication system in Laravel 5.1 LTS",
     "keywords": ["laravel", "framework", "opemam auth", "openam authentication", "openam", "OpenAM", "auth",
       "authentication", "OpenAmAuth", "Laravel OpenAmAuth", "Laravel-OpenAmAuth", "opensso", "OpenSSO",
       "Ben Norcombe", "BenNorcombe"],
@@ -12,13 +12,13 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/contracts": "5.0.*",
-        "illuminate/support": "5.0.*"
+        "php": ">=5.5.0",
+        "illuminate/contracts": "5.1.*",
+        "illuminate/support": "5.1.*"
 
     },
     "require-dev": {
-        "orchestra/testbench": "3.0.*"
+        "orchestra/testbench": "3.1.*"
     },
     "autoload": {
         "psr-4": {
