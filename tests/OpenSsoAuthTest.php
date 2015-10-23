@@ -1,11 +1,10 @@
 <?php namespace Maenbn\Tests\OpenAmAuth;
 
-
 /**
  * @runTestsInSeparateProcesses
  */
-class OpenSsoAuthTest extends \Orchestra\Testbench\TestCase {
-
+class OpenSsoAuthTest extends \Orchestra\Testbench\TestCase
+{
     protected $config;
 
     protected $testUser;
@@ -16,7 +15,6 @@ class OpenSsoAuthTest extends \Orchestra\Testbench\TestCase {
 
     protected function getEnvironmentSetUp($app)
     {
-
         $config = $this->mockOpenSsoConfig();
 
         $this->config = $config;
@@ -31,24 +29,18 @@ class OpenSsoAuthTest extends \Orchestra\Testbench\TestCase {
 
         $this->testUser = $config['testUser'];
         $this->testUserPassword = $config['testUserPassword'];
-
     }
 
     protected function mockOpenSsoConfig()
     {
-
         $configFile = dirname(__FILE__) . '/configOpenSso.php';
 
-        if (!file_exists($configFile))
-        {
-
+        if (!file_exists($configFile)) {
             $this->fail('Please take the configOpenSso.php.dist and create a configOpenSso.php file ' .
                 'with your OpenSSO server details within the same directory');
-
         }
 
         return include $configFile;
-
     }
 
     protected function getPackageProviders($app)
@@ -64,21 +56,14 @@ class OpenSsoAuthTest extends \Orchestra\Testbench\TestCase {
         //
         $this->assertTrue(\Auth::attempt(['username' => $this->testUser, 'password' => $this->testUserPassword]));
         $this->assertTrue(\Auth::attempt());
-
     }
 
     public function testAuthenticatedUser()
     {
-
         \Auth::attempt(['username' => $this->testUser, 'password' => $this->testUserPassword]);
 
         $user = \Auth::user();
 
         $this->assertObjectHasAttribute('tokenId', $user);
-
     }
-
 }
-
-
-

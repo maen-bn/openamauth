@@ -12,6 +12,10 @@ return [
 
     'cookieName' => null,
 
-    'legacy' => false
+    'legacy' => false,
+
+    'eloquentModel' => null,
+
+    'eloquentUidField' => 'uid'
 
 ];

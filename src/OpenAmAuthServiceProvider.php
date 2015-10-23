@@ -5,8 +5,8 @@ use Illuminate\Auth\Guard;
 use Illuminate\Support\ServiceProvider;
 use Exception;
 
-class OpenAmAuthServiceProvider extends ServiceProvider {
-
+class OpenAmAuthServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -23,24 +23,19 @@ class OpenAmAuthServiceProvider extends ServiceProvider {
     {
         $this->setupConfig();
 
-        $this->app['auth']->extend('openam', function ($app)
-        {
-            if (!$app['config']['openam'])
-            {
+        $this->app['auth']->extend('openam', function ($app) {
+            if (!$app['config']['openam']) {
                 throw new Exception('OpenAM config not found. Please run ' .
                     'php artisan vendor:publish and check if config/openam.php exists.');
             }
 
             $config = $app['config']['openam'];
 
-            if ($config['legacy'] == true)
-            {
-
-                return new Guard(new OpenSsoUserProvider($config, new OpenSsoUser()), $app['session.store']);
-
+            if ($config['legacy'] == true) {
+                return new Guard(new OpenSsoUserProvider($config), $app['session.store']);
             }
 
-            return new Guard(new OpenAmUserProvider($config, new OpenAmUser()), $app['session.store']);
+            return new Guard(new OpenAmUserProvider($config), $app['session.store']);
 
         });
     }
@@ -66,7 +61,6 @@ class OpenAmAuthServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-
     }
 
 

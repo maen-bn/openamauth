@@ -2,10 +2,10 @@
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
+use \Illuminate\Database\Eloquent\Model as Model;
 
-
-abstract class AbstractUserProvider implements UserProvider {
-
+abstract class AbstractUserProvider implements UserProvider
+{
     /**
      * $userModel - interface for authenticatable user
      *
@@ -60,13 +60,19 @@ abstract class AbstractUserProvider implements UserProvider {
     protected $uid;
 
     /**
+     * @var string
+     */
+    protected $eloquentUidField;
+
+
+    /**
      * Constructor
      *
-     * @param array $config
-     * @param UserInterface $user
-     * @return void
+     * @param array                                      $config
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param bool                                       $eloquent
      */
-    public function __construct($config, UserInterface $user)
+    public function __construct($config)
     {
         $this->serverAddress = $config['serverAddress'];
         $this->realm = $config['realm'];
@@ -74,7 +80,18 @@ abstract class AbstractUserProvider implements UserProvider {
         $this->cookieDomain = $config['cookieDomain'];
         $this->cookieName = $config['cookieName'];
 
-        $this->userModel = $user;
+        $model = new OpenAmUser();
+
+        if (!is_null($config['eloquentModel'])) {
+            $eloquentModel = new $config['eloquentModel'];
+        }
+
+        if (isset($eloquentModel) && $eloquentModel instanceof Model) {
+            $model = $eloquentModel;
+            $this->eloquentUidField = $config['eloquentUidField'];
+        }
+
+        $this->userModel = $model;
 
         $this->getTokenIdFromCookie();
     }
@@ -89,13 +106,11 @@ abstract class AbstractUserProvider implements UserProvider {
     {
         $this->tokenId = $identifier;
 
-        if ($this->isTokenValid($this->tokenId))
-        {
+        if ($this->isTokenValid($this->tokenId)) {
             $this->setUser($this->tokenId);
 
             return $this->userModel;
-        } else
-        {
+        } else {
             return null;
         }
     }
@@ -110,11 +125,9 @@ abstract class AbstractUserProvider implements UserProvider {
     {
 
         //Signing in using token id from cookie
-        if (empty($credentials))
-        {
+        if (empty($credentials)) {
             $this->retrieveById($this->tokenId);
         }
-
     }
 
     /**
@@ -163,12 +176,8 @@ abstract class AbstractUserProvider implements UserProvider {
      */
     protected function isTokenValid($tokenId)
     {
-
-        if (!empty($tokenId))
-        {
-
+        if (!empty($tokenId)) {
             return true;
-
         }
 
         return false;
@@ -183,13 +192,13 @@ abstract class AbstractUserProvider implements UserProvider {
      */
     protected function setUser($tokenId)
     {
-
         $attributes = new \stdClass();
 
         $attributes->tokenId = $tokenId;
 
         $this->userModel->setAttributes($attributes);
 
+        $this->assignEloquentDataIfNeeded();
     }
 
     /**
@@ -199,14 +208,25 @@ abstract class AbstractUserProvider implements UserProvider {
      */
     protected function getTokenIdFromCookie()
     {
-
-        if (isset($_COOKIE[$this->cookieName]))
-        {
+        if (isset($_COOKIE[$this->cookieName])) {
             $this->tokenId = $_COOKIE[$this->cookieName];
         }
 
         return $this;
-
     }
 
+    protected function assignEloquentDataIfNeeded()
+    {
+        if ($this->userModel instanceof Model) {
+            $userEloquent =  new $this->userModel;
+
+            $userData = $userEloquent->newQuery()
+                ->where($this->eloquentUidField, $this->userModel->uid)
+                ->first()->toArray();
+
+            foreach ($userData as $eloquentAttributeKey => $attribute) {
+                $this->userModel->$eloquentAttributeKey = $attribute;
+            }
+        }
+    }
 }

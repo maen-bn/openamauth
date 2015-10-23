@@ -1,12 +1,11 @@
 <?php namespace Maenbn\OpenAmAuth;
 
-
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Exception;
 
-class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
-
+class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
+{
     /**
      * Retrieve a user by the given credentials.
      *
@@ -15,27 +14,20 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
      */
     public function retrieveByCredentials(array $credentials = array())
     {
-
-        if (empty($credentials))
-        {
-            if ($this->isTokenValid($this->tokenId))
-            {
+        if (empty($credentials)) {
+            if ($this->isTokenValid($this->tokenId)) {
                 $this->setUser($this->tokenId);
 
                 return $this->userModel;
-            } else
-            {
+            } else {
                 return null;
             }
         }
 
         $authenticateUri = "/openam/json/authenticate";
 
-        if (!is_null($this->realm))
-        {
-
+        if (!is_null($this->realm)) {
             $authenticateUri = "/openam/json/" . $this->realm . "/authenticate";
-
         }
 
         $ch = curl_init($this->serverAddress . $authenticateUri);
@@ -50,13 +42,11 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
 
         $output = curl_exec($ch);
 
-        if ($output === false)
-        {
+        if ($output === false) {
             $curlError = curl_error($ch);
             curl_close($ch);
             throw new Exception('Curl error: ' . $curlError);
-        } else
-        {
+        } else {
             $json = json_decode($output);
 
             $this->tokenId = $json->tokenId;
@@ -69,7 +59,6 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
 
             return $this->userModel;
         }
-
     }
 
     /**
@@ -80,7 +69,6 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
      */
     protected function isTokenValid($tokenId)
     {
-
         $ch = curl_init($this->serverAddress . "/openam/json/sessions/" . $tokenId . "?_action=validate");
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -95,13 +83,10 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
 
         $valid = $json->valid;
 
-        if ($valid)
-        {
-
+        if ($valid) {
             $this->uid = $json->uid;
 
             return true;
-
         }
 
         return false;
@@ -116,7 +101,6 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
      */
     protected function setUser($tokenId)
     {
-
         $ch = curl_init($this->serverAddress . "/openam/json/users/" . $this->uid);
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
@@ -130,11 +114,10 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider {
 
         $attributes->tokenId = $tokenId;
 
-        foreach ($attributes as $key => $value)
-        {
+        foreach ($attributes as $key => $value) {
             $this->userModel->$key = $value;
         }
 
+        $this->assignEloquentDataIfNeeded();
     }
-
 }

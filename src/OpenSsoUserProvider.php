@@ -2,9 +2,10 @@
 
 use Illuminate\Contracts\Auth\UserProvider;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
-class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
-
+class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
+{
     /**
      * Retrieve a user by the given credentials.
      *
@@ -13,16 +14,12 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
      */
     public function retrieveByCredentials(array $credentials = array())
     {
-
-        if (empty($credentials))
-        {
-            if ($this->isTokenValid($this->tokenId))
-            {
+        if (empty($credentials)) {
+            if ($this->isTokenValid($this->tokenId)) {
                 $this->setUser($this->tokenId);
 
                 return $this->userModel;
-            } else
-            {
+            } else {
                 return null;
             }
         }
@@ -40,13 +37,11 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
 
-        if ($output === false)
-        {
+        if ($output === false) {
             $curlError = curl_error($ch);
             curl_close($ch);
             throw new Exception('Curl error: ' . $curlError);
-        } else
-        {
+        } else {
             $tokenId = str_replace('token.id=', '', $output);
             $tokenId = substr($tokenId, 0, - 1);
 
@@ -60,7 +55,6 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
 
             return $this->userModel;
         }
-
     }
 
     /**
@@ -71,7 +65,6 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
      */
     protected function isTokenValid($tokenId)
     {
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->serverAddress . '/opensso/identity/isTokenValid?tokenid=' . $tokenId);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -79,24 +72,19 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
         $output = curl_exec($ch);
         curl_close($ch);
 
-        if ($output === false)
-        {
+        if ($output === false) {
             $curlError = curl_error($ch);
             curl_close($ch);
             throw new Exception('Curl error: ' . $curlError);
-        } else
-        {
+        } else {
             $result = substr($output, 0, - 1);
 
-            if ($result == 'boolean=true')
-            {
+            if ($result == 'boolean=true') {
                 return true;
-            } else
-            {
+            } else {
                 return false;
             }
         }
-
     }
 
     /**
@@ -108,7 +96,6 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
      */
     protected function setUser($tokenId)
     {
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->serverAddress . '/opensso/identity/attributes?' .
             $this->cookieName . '=' . $tokenId);
@@ -117,19 +104,15 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
         $output = curl_exec($ch);
         curl_close($ch);
 
-        if ($output === false)
-        {
+        if ($output === false) {
             $curlError = curl_error($ch);
             curl_close($ch);
             throw new Exception('Curl error: ' . $curlError);
-        } else
-        {
+        } else {
             $output = explode(chr(10), $output);
 
             $attributes = new \stdClass();
-            foreach ($output as $key => $value)
-            {
-
+            foreach ($output as $key => $value) {
                 $tokenPattern = "/^userdetails.token.id=/";
                 $namePattern = "/^userdetails.attribute.name=/";
                 $valuePattern = "/^userdetails.attribute.value=/";
@@ -138,12 +121,10 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
                 $nameMatch = preg_match($namePattern, $value);
 
 
-                if ($tokenMatch)
-                {
+                if ($tokenMatch) {
                     $attributeKey = 'tokenId';
                     $attributeValue = preg_replace($tokenPattern, '', $value);
-                } else if ($nameMatch)
-                {
+                } elseif ($nameMatch) {
                     $attributeKey = preg_replace($namePattern, '', $value);
                     $attributeValue = preg_replace($valuePattern, '', $output[$key + 1]);
                 }
@@ -152,8 +133,7 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider {
                 $this->userModel->$attributeKey = $attributeValue;
             }
 
+            $this->assignEloquentDataIfNeeded();
         }
-
     }
-
 }

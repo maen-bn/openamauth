@@ -1,9 +1,8 @@
 <?php namespace Maenbn\OpenAmAuth;
 
-use Illuminate\Contracts\Auth\Authenticatable as User;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;;
 
-interface UserInterface extends User {
-
+interface UserInterface extends AuthenticatableContract
+{
     public function setAttributes($attributes);
-
 }
