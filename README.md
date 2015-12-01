@@ -31,6 +31,8 @@ $ php artisan vendor:publish
 which will create a `config/openam.php` file in your app where you can modify it to reflect 
 your OpenAM server. If you are using an OpenSSO server, you will need to specify `legacy` as `true`.
 
+Finally make sure to change the value for the `driver` key to `openam` in `config/auth.php`.
+
 ### Eloquent model
 There is also an option to use an Eloquent model as the user object for OpenAM authentication. This is useful if 
 you want to authenticate against OpenAM but want to control authorisation within Laravel e.g. using 
