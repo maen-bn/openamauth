@@ -1,6 +1,6 @@
 <?php namespace Maenbn\OpenAmAuth;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as IlluminateAuth;
 use Illuminate\Contracts\Auth\UserProvider;
 use \Illuminate\Database\Eloquent\Model as Model;
 
@@ -68,9 +68,7 @@ abstract class AbstractUserProvider implements UserProvider
     /**
      * Constructor
      *
-     * @param array                                      $config
-     * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param bool                                       $eloquent
+     * @param array $config
      */
     public function __construct($config)
     {
@@ -96,30 +94,35 @@ abstract class AbstractUserProvider implements UserProvider
         $this->getTokenIdFromCookie();
     }
 
+
     /**
-     * Retrieve a user by their unique identifier.
-     *
-     * @param  mixed $identifier
-     * @return $userModel|null
+     * @param mixed $identifier
+     * @return \Illuminate\Database\Eloquent\Collection|Model|OpenAmUser|null|string
      */
     public function retrieveById($identifier)
     {
+
+        if (is_int($identifier) && $this->userModel instanceof Model) {
+            $userEloquent =  new $this->userModel;
+
+            return $userEloquent->newQuery()->find($identifier);
+        }
+
         $this->tokenId = $identifier;
 
         if ($this->isTokenValid($this->tokenId)) {
             $this->setUser($this->tokenId);
 
             return $this->userModel;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
+
     /**
-     * Retrieve a user by the given credentials.
-     *
-     * @param  array $credentials
-     * @return $userModel|null
+     * @param array $credentials
+     * @return null
      */
     public function retrieveByCredentials(array $credentials = array())
     {
@@ -133,11 +136,11 @@ abstract class AbstractUserProvider implements UserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param Authenticatable $user
+     * @param IlluminateAuth $user
      * @param  array $credentials
      * @return bool
      */
-    public function validateCredentials(Authenticatable $user, array $credentials)
+    public function validateCredentials(IlluminateAuth $user, array $credentials)
     {
         $userId = $user->getAuthIdentifier();
 
@@ -159,11 +162,11 @@ abstract class AbstractUserProvider implements UserProvider
     /**
      * Update the "remember me" token for the given user in storage.
      *
-     * @param  Authenticatable $user
+     * @param  IlluminateAuth $user
      * @param  string $token
      * @return void
      */
-    public function updateRememberToken(Authenticatable $user, $token)
+    public function updateRememberToken(IlluminateAuth $user, $token)
     {
         //
     }
