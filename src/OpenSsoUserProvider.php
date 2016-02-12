@@ -70,7 +70,6 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
-        curl_close($ch);
 
         if ($output === false) {
             $curlError = curl_error($ch);
@@ -84,6 +83,7 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             } else {
                 return false;
             }
+            curl_close($ch);
         }
     }
 
@@ -102,7 +102,6 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
-        curl_close($ch);
 
         if ($output === false) {
             $curlError = curl_error($ch);
@@ -134,6 +133,8 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             }
 
             $this->assignEloquentDataIfNeeded();
+
+            curl_close($ch);
         }
     }
 }
