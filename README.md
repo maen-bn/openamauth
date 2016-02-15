@@ -17,8 +17,8 @@ The get the latest version of OpenAM Authentication, add the following line to y
 Then run `composer install` or `composer update` to install.
 
 You will also need to register the service provider by going into `config/app.php` and add the following to the `providers` key:
-```
-'Maenbn\OpenAmAuth\OpenAmAuthServiceProvider'
+```php
+Maenbn\OpenAmAuth\OpenAmAuthServiceProvider::class
 ```
 
 ## Configuration
