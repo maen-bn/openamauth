@@ -142,7 +142,12 @@ abstract class AbstractUserProvider implements UserProvider
      */
     public function validateCredentials(IlluminateAuth $user, array $credentials)
     {
-        $userId = $user->getAuthIdentifier();
+        $token = $user->getAuthIdentifier();
+
+        if(is_null($token))
+        {
+            return false;
+        }
 
         return true;
     }

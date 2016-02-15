@@ -41,7 +41,8 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             $curlError = curl_error($ch);
             curl_close($ch);
             throw new Exception('Curl error: ' . $curlError);
-        } else {
+        } else if (!preg_match('/token.id=/',$output)) {
+
             $tokenId = str_replace('token.id=', '', $output);
             $tokenId = substr($tokenId, 0, - 1);
 
@@ -52,9 +53,9 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             curl_close($ch);
 
             setrawcookie($this->cookieName, $this->tokenId, 0, $this->cookiePath, $this->cookieDomain);
-
-            return $this->userModel;
         }
+
+        return $this->userModel;
     }
 
     /**
