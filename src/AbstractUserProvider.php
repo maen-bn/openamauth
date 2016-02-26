@@ -230,10 +230,15 @@ abstract class AbstractUserProvider implements UserProvider
 
             $userData = $userEloquent->newQuery()
                 ->where($this->eloquentUidField, $this->userModel->uid)
-                ->first()->toArray();
+                ->first();
 
-            foreach ($userData as $eloquentAttributeKey => $attribute) {
-                $this->userModel->$eloquentAttributeKey = $attribute;
+            if(!is_null($userData))
+            {
+                $userData = $userData->toArray();
+
+                foreach ($userData as $eloquentAttributeKey => $attribute) {
+                    $this->userModel->$eloquentAttributeKey = $attribute;
+                }
             }
         }
     }
