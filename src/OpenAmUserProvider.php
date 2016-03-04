@@ -6,11 +6,11 @@ use Exception;
 
 class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
 {
+
     /**
-     * Retrieve a user by the given credentials.
-     *
-     * @param  array $credentials
-     * @return $userModel|null
+     * @param array $credentials
+     * @return \Illuminate\Database\Eloquent\Model|OpenAmUser|string
+     * @throws Exception
      */
     public function retrieveByCredentials(array $credentials = array())
     {
@@ -54,8 +54,6 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
             $this->setUser($this->tokenId);
 
             curl_close($ch);
-
-            setrawcookie($this->cookieName, $this->tokenId, 0, $this->cookiePath, $this->cookieDomain);
 
             return $this->userModel;
         }

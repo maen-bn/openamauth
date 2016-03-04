@@ -68,6 +68,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     ..........
 ```
 
+## Middleware
+
+If you require your app to set a cookie to hold the OpenAM token, you can utilise the middleware available in this package. Add it to your `app/Http/Kernel.php` either as a global or route middleware
+
+```php
+protected $middleware = [
+    ...............
+    \Maenbn\OpenAmAuth\Middleware\SetOpenAmCookie::class
+];
+
+// Or
+
+protected $routeMiddleware = [
+    ...............
+    'openamauth.cookie' => \Maenbn\OpenAmAuth\Middleware\SetOpenAmCookie::class
+];
+```
+
 ##Usage
 Now your Auth driver is using OpenAM you will be able to use the Laravel's `Auth` class to authenticate users.
 
@@ -83,3 +101,4 @@ Auth::attempt($input);
 
 //Retrieving the OpenAM attributes of a logged in user
 $user = Auth::user();
+```

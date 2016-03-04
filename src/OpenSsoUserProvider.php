@@ -52,7 +52,6 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
 
             curl_close($ch);
 
-            setrawcookie($this->cookieName, $this->tokenId, 0, $this->cookiePath, $this->cookieDomain);
         }
 
         return $this->userModel;
