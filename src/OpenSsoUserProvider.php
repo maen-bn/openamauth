@@ -41,7 +41,7 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             $curlError = curl_error($ch);
             curl_close($ch);
             throw new Exception('Curl error: ' . $curlError);
-        } else if (!preg_match('/token.id=/',str_replace('token.id=', '', $output))) {
+        } else if (strpos($output, 'token.id=') !== false) {
 
             $tokenId = str_replace('token.id=', '', $output);
             $tokenId = substr($tokenId, 0, - 1);
