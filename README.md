@@ -86,6 +86,34 @@ protected $routeMiddleware = [
 ];
 ```
 
+You have to also make sure you add your OpenAM cookie name into the `except` array found in the middleware `app/Http/Middleware/EncryptCookies.php` so the token value isn't encrypted as it will need to be validated during authentication attempts.
+
+You can either hard code it or do the following in `app/Http/Middleware/EncryptCookies.php` making sure you import the `Closure` class into the middleware:
+
+```php
+namespace app\Http\Middleware;
+
+use Closure;
+use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
+
+class EncryptCookies extends BaseEncrypter
+{
+    /**
+     * The names of the cookies that should not be encrypted.
+     *
+     * @var array
+     */
+    protected $except = [
+    ];
+
+    public function handle($request, Closure $next)
+    {
+        $this->except[] = config('openam.cookieName');
+        return parent::handle($request, $next);
+    }
+}
+```
+
 ##Usage
 Now your Auth driver is using OpenAM you will be able to use the Laravel's `Auth` class to authenticate users.
 
