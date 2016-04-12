@@ -30,6 +30,7 @@ $ php artisan vendor:publish
 ```
 which will create a `config/openam.php` file in your app where you can modify it to reflect 
 your OpenAM server. If you are using an OpenSSO server, you will need to specify `legacy` as `true`.
+If you want to use the OpenAM legacy REST API (found in <12.0), then set `legacy` to `true` and `deployUri` to `openam`.
 
 Finally make sure to change the value for the `driver` key to `openam` in `config/auth.php`.
 
