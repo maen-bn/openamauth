@@ -54,9 +54,9 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
             $this->setUser($this->tokenId);
 
             curl_close($ch);
-
-            return $this->userModel;
         }
+
+        return $this->userModel;
     }
 
     /**
@@ -79,9 +79,7 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
 
         $json = json_decode($output);
 
-        $valid = $json->valid;
-
-        if ($valid) {
+        if (isset($json->valid) && $json->valid) {
             $this->uid = $json->uid;
 
             return true;
@@ -99,23 +97,34 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
      */
     protected function setUser($tokenId)
     {
-        $ch = curl_init($this->serverAddress . "/". $this->deployUri ."/json/users/" . $this->uid);
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
-            $this->cookieName . ': ' . $tokenId));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
+        if($this->isTokenValid($tokenId)) {
+            $userAttributesAddress = $this->serverAddress . "/" . $this->deployUri . "/json/";
+            if (!is_null($this->realm)) {
+                $userAttributesAddress .=  $this->realm . "/";
+            }
+            $userAttributesAddress .= "users/" . $this->uid;
+            $ch = curl_init($userAttributesAddress);
 
-        $output = curl_exec($ch);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
+                $this->cookieName . ': ' . $tokenId));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
 
-        $attributes = json_decode($output);
+            $output = curl_exec($ch);
 
-        $attributes->tokenId = $tokenId;
+            $attributes = json_decode($output);
 
-        foreach ($attributes as $key => $value) {
-            $this->userModel->$key = $value;
+            $attributes->tokenId = $tokenId;
+
+            foreach ($attributes as $key => $value) {
+                if(is_array($value) && count($value) == 1 && isset($value[0])){
+                    $value = $value[0];
+                }
+                $this->userModel->$key = $value;
+            }
+
+            $this->assignEloquentDataIfNeeded();
         }
-
-        $this->assignEloquentDataIfNeeded();
     }
 }
