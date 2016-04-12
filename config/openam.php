@@ -4,6 +4,8 @@ return [
 
     'serverAddress' => null,
 
+    'deployUri' => null,
+
     'realm' => null,
 
     'cookiePath' => null,

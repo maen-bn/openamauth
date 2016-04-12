@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
 {
+
     /**
-     * Retrieve a user by the given credentials.
-     *
-     * @param  array $credentials
-     * @return $userModel|null
+     * @param array $credentials
+     * @return Model|OpenAmUser|string
+     * @throws Exception
      */
     public function retrieveByCredentials(array $credentials = array())
     {
@@ -24,7 +24,7 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             }
         }
 
-        $authenticateUri = "/opensso/identity/authenticate";
+        $authenticateUri = "/". $this->deployUri ."/identity/authenticate";
 
 
         $ch = curl_init();
@@ -43,6 +43,7 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             throw new Exception('Curl error: ' . $curlError);
         } else if (strpos($output, 'token.id=') !== false) {
 
+
             $tokenId = str_replace('token.id=', '', $output);
             $tokenId = substr($tokenId, 0, - 1);
 
@@ -57,16 +58,16 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
         return $this->userModel;
     }
 
+
     /**
-     * Validate OpenAM token
-     *
-     * @param  string $tokenId
+     * @param string $tokenId
      * @return bool
+     * @throws Exception
      */
     protected function isTokenValid($tokenId)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->serverAddress . '/opensso/identity/isTokenValid?tokenid=' . $tokenId);
+        curl_setopt($ch, CURLOPT_URL, $this->serverAddress . '/'. $this->deployUri .'/identity/isTokenValid?tokenid=' . $tokenId);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
@@ -97,7 +98,7 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
     protected function setUser($tokenId)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->serverAddress . '/opensso/identity/attributes?' .
+        curl_setopt($ch, CURLOPT_URL, $this->serverAddress . '/'. $this->deployUri . '/identity/attributes?' .
             $this->cookieName . '=' . $tokenId);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

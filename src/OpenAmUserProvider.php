@@ -24,10 +24,10 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
             }
         }
 
-        $authenticateUri = "/openam/json/authenticate";
+        $authenticateUri = "/". $this->deployUri ."/json/authenticate";
 
         if (!is_null($this->realm)) {
-            $authenticateUri = "/openam/json/" . $this->realm . "/authenticate";
+            $authenticateUri = "/". $this->deployUri ."/json/" . $this->realm . "/authenticate";
         }
 
         $ch = curl_init($this->serverAddress . $authenticateUri);
@@ -67,7 +67,7 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
      */
     protected function isTokenValid($tokenId)
     {
-        $ch = curl_init($this->serverAddress . "/openam/json/sessions/" . $tokenId . "?_action=validate");
+        $ch = curl_init($this->serverAddress . "/". $this->deployUri ."/json/sessions/" . $tokenId . "?_action=validate");
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 
@@ -99,7 +99,7 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
      */
     protected function setUser($tokenId)
     {
-        $ch = curl_init($this->serverAddress . "/openam/json/users/" . $this->uid);
+        $ch = curl_init($this->serverAddress . "/". $this->deployUri ."/json/users/" . $this->uid);
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json',
             $this->cookieName . ': ' . $tokenId));

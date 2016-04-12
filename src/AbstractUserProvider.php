@@ -21,6 +21,15 @@ abstract class AbstractUserProvider implements UserProvider
     protected $serverAddress = null;
 
     /**
+     * $deployUri - first uri to REST API interface. Usually either opensso or openam but can be set to a custom one
+     * via the config
+     *
+     * @var string
+     */
+    protected $deployUri = null;
+
+
+    /**
      * $realm - realm used for authenticate operation passed to the constructor
      *
      * @var string
@@ -64,7 +73,6 @@ abstract class AbstractUserProvider implements UserProvider
      */
     protected $eloquentUidField;
 
-
     /**
      * Constructor
      *
@@ -73,6 +81,7 @@ abstract class AbstractUserProvider implements UserProvider
     public function __construct($config)
     {
         $this->serverAddress = $config['serverAddress'];
+        $this->setDeployUri($config);
         $this->realm = $config['realm'];
         $this->cookiePath = $config['cookiePath'];
         $this->cookieDomain = $config['cookieDomain'];
@@ -239,6 +248,17 @@ abstract class AbstractUserProvider implements UserProvider
                 foreach ($userData as $eloquentAttributeKey => $attribute) {
                     $this->userModel->$eloquentAttributeKey = $attribute;
                 }
+            }
+        }
+    }
+
+    protected function setDeployUri($config)
+    {
+        if(isset($config['deployUri'])) $this->deployUri = $config['deployUri'];
+        if(is_null($this->deployUri)){
+            $this->deployUri = 'openam';
+            if($config['legacy']){
+                $this->deployUri = 'opensso';
             }
         }
     }
