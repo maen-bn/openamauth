@@ -82,10 +82,10 @@ abstract class AbstractUserProvider implements UserProvider
     {
         $this->serverAddress = $config['serverAddress'];
         $this->setDeployUri($config);
-        $this->realm = $config['realm'];
+        $this->setRealm($config['realm']);
         $this->cookiePath = $config['cookiePath'];
         $this->cookieDomain = $config['cookieDomain'];
-        $this->cookieName = $config['cookieName'];
+        $this->setCookieName($config['cookieName']);
 
         $model = new OpenAmUser();
 
@@ -99,7 +99,6 @@ abstract class AbstractUserProvider implements UserProvider
         }
 
         $this->userModel = $model;
-
         $this->getTokenIdFromCookie();
     }
 
@@ -261,5 +260,13 @@ abstract class AbstractUserProvider implements UserProvider
                 $this->deployUri = 'opensso';
             }
         }
+    }
+
+    protected function setRealm($realm){
+        $this->realm = $realm;
+    }
+
+    protected function setCookieName($cookieName){
+        $this->cookieName = $cookieName;
     }
 }

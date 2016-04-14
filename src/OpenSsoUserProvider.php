@@ -43,7 +43,6 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             throw new Exception('Curl error: ' . $curlError);
         } else if (strpos($output, 'token.id=') !== false) {
 
-
             $tokenId = str_replace('token.id=', '', $output);
             $tokenId = substr($tokenId, 0, - 1);
 
@@ -136,6 +135,32 @@ class OpenSsoUserProvider extends AbstractUserProvider implements UserProvider
             $this->assignEloquentDataIfNeeded();
 
             curl_close($ch);
+        }
+    }
+
+    protected function setCookieName($cookieName)
+    {
+        parent::setCookieName($cookieName);
+
+        if(is_null($this->cookieName)) {
+            $ch = curl_init($this->serverAddress . "/". $this->deployUri . "/identity/getCookieNameForToken");
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+
+            $output = curl_exec($ch);
+
+            $this->cookieName = trim(preg_replace('/\s\s+/', ' ', str_replace('string=', '', $output)));
+        }
+    }
+
+    protected function setRealm($realm)
+    {
+        parent::setRealm($realm);
+
+        if(!preg_match('/^realm=/', $realm)){
+            $this->realm = 'realm=/' . $this->realm;
         }
     }
 }

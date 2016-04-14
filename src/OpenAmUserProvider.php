@@ -129,4 +129,21 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
             $this->assignEloquentDataIfNeeded();
         }
     }
+
+    protected function setCookieName($cookieName)
+    {
+        parent::setCookieName($cookieName);
+
+        if(is_null($this->cookieName)) {
+            $ch = curl_init($this->serverAddress . "/". $this->deployUri . "/identity/json/getCookieNameForToken");
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+
+            $output = curl_exec($ch);
+
+            $this->cookieName = json_decode($output)->string;
+        }
+    }
 }
