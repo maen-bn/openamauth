@@ -49,9 +49,11 @@ class OpenAmUserProvider extends AbstractUserProvider implements UserProvider
         } else {
             $json = json_decode($output);
 
-            $this->tokenId = $json->tokenId;
+            if(isset($json->tokenId)){
+                $this->tokenId = $json->tokenId;
 
-            $this->setUser($this->tokenId);
+                $this->setUser($this->tokenId);
+            }
 
             curl_close($ch);
         }
