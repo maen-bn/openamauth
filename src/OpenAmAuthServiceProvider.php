@@ -23,7 +23,7 @@ class OpenAmAuthServiceProvider extends ServiceProvider
     {
         $this->setupConfig();
 
-        $this->app['auth']->extend('openam', function ($app) {
+        $this->app['auth']->provider('openam', function ($app) {
             if (!$app['config']['openam']) {
                 throw new Exception('OpenAM config not found. Please run ' .
                     'php artisan vendor:publish and check if config/openam.php exists.');
