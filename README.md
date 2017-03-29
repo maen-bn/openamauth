@@ -1,5 +1,5 @@
 # OpenAM Authentication 
-=================
+
 This is a provider for adding a OpenAM/OpenSSO driver to your authentication system in Laravel 5
 
 ## Installation
@@ -9,12 +9,11 @@ The tool requires you have [PHP](https://php.net) 5.4.*+ and [Composer](https://
 You will also need a [OpenAM](http://openam.forgerock.org/) or [OpenSSO](https://java.net/projects/opensso)
 server.
 
-The get the latest version of OpenAM Authentication, add the following line to your `composer.json` file:
-```
-"maenbn\openamauth": "dev-master"
-```
+To install the package run the following composer command 
 
-Then run `composer install` or `composer update` to install.
+``` bash
+composer require maenbn/openamauth
+```
 
 You will also need to register the service provider by going into `config/app.php` and add the following to the `providers` key:
 ```php
