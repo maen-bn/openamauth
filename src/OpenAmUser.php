@@ -1,4 +1,8 @@
-<?php namespace Maenbn\OpenAmAuth;
+<?php
+
+namespace Maenbn\OpenAmAuth;
+
+use Maenbn\OpenAmAuth\Contracts\UserInterface;
 
 class OpenAmUser implements UserInterface
 {
