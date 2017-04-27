@@ -15,8 +15,9 @@
          verbose="true"
 >
     <testsuites>
-        <testsuite name="Laravel LdapLookup Test Suite">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="OpenAmAuth Test Suite">
+            <directory suffix="Test.php">./tests/unit</directory>
+            <directory suffix="Test.php">./tests/integration</directory>
         </testsuite>
     </testsuites>
     <filter>

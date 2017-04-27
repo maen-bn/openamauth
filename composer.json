@@ -1,8 +1,8 @@
 {
     "name": "maenbn/openamauth",
-    "description": "OpemAmAuth is a provider for adding an OpenAM or OpenSSO driver to your authentication system in Laravel 5.1 LTS",
-    "keywords": ["laravel", "framework", "opemam auth", "openam authentication", "openam", "OpenAM", "auth",
-      "authentication", "OpenAmAuth", "Laravel OpenAmAuth", "Laravel-OpenAmAuth", "opensso", "OpenSSO",
+    "description": "OpemAmAuth is a client for authenticating against OpenAM in PHP",
+    "keywords": ["opemam auth", "openam authentication", "openam", "OpenAM", "auth",
+      "authentication", "OpenAmAuth", "Laravel", "Laravel OpenAmAuth", "Laravel-OpenAmAuth",
       "Ben Norcombe", "BenNorcombe"],
     "license": "MIT",
     "authors": [
@@ -13,13 +13,12 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/contracts": "5.1.*",
-        "illuminate/support": "5.1.*"
+        "illuminate/contracts": "5.2.*",
+        "illuminate/support": "5.2.*"
 
     },
     "require-dev": {
-        "orchestra/testbench": "3.1.*",
-        "illuminate/database": "~5.0"
+        "phpunit/phpunit": "^4.8.35"
     },
     "autoload": {
         "psr-4": {
@@ -27,8 +26,8 @@
         }
     },
     "autoload-dev": {
-        "psr-4": {
-            "Maenbn\\Tests\\OpenAmAuth\\": "tests/"
-        }
+        "classmap": [
+            "tests/TestCase.php"
+        ]
     }
 }
