@@ -2,6 +2,8 @@
 
 namespace Maenbn\OpenAmAuth\Contracts;
 
+use Maenbn\OpenAmAuth\Contracts\Strategies\Format;
+
 interface Curl
 {
     /**
@@ -49,6 +51,17 @@ interface Curl
      * @return $this
      */
     public function setOptions(array $options);
+
+    /**
+     * @return Format
+     */
+    public function getResultFormat();
+
+    /**
+     * @param mixed $resultFormat
+     * @return $this
+     */
+    public function setResultFormat(Format $resultFormat);
 
     /**
      * @param array $data

@@ -96,7 +96,7 @@ class Curl implements CurlContract
      */
     public function appendToHeaders(array $headers)
     {
-        array_merge($this->getHeaders(), $headers);
+        $this->setHeaders(array_merge($this->getHeaders(), $headers));
         return $this;
     }
 
@@ -147,7 +147,7 @@ class Curl implements CurlContract
      */
     public function get(array $data = [])
     {
-        return $this->setOptions([CURLOPT_HTTPHEADER => $data])->execute();
+        return $this->appendToHeaders($data)->execute();
     }
 
     /**
@@ -156,7 +156,7 @@ class Curl implements CurlContract
      */
     public function post(array $data = [])
     {
-        return $this->setOptions([CURLOPT_HTTPHEADER => $data])->setOption(CURLOPT_CUSTOMREQUEST, "POST")->execute();
+        return $this->appendToHeaders($data)->setOption(CURLOPT_CUSTOMREQUEST, "POST")->execute();
     }
 
     /**
@@ -168,10 +168,10 @@ class Curl implements CurlContract
         if(empty($this->getUrl())){
             throw new \Exception("A url must be set before curl can be executed");
         }
-        $this->setOptions($this->getHeaders())->setOption(CURLOPT_URL, $this->url);
+        $this->setOption(CURLOPT_URL, $this->url)->setOption(CURLOPT_HTTPHEADER, $this->getHeaders());
+
         $result = curl_exec($this->getSession());
         $this->close()->reset();
-
         return $this->format($result);
     }
 

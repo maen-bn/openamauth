@@ -9,7 +9,7 @@ class CurlIntegrationTest extends TestCase
     {
         parent::setUp();
         $this->curl = new \Maenbn\OpenAmAuth\Curl();
-        $this->curl->setHeaders([CURLOPT_HTTPHEADER => ['User-Agent:Mozilla/5.0 (X11; Linux x86_64)']])
+        $this->curl->setHeaders(['User-Agent:Mozilla/5.0 (X11; Linux x86_64)'])
             ->setOptions([CURLOPT_RETURNTRANSFER => true])
             ->setUrl('https://api.github.com/search/repositories?q=maen-bn/openamauth');
     }

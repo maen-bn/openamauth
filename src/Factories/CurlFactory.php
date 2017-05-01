@@ -2,13 +2,15 @@
 
 namespace Maenbn\OpenAmAuth\Factories;
 
+use Maenbn\OpenAmAuth\Curl;
+
 class CurlFactory
 {
     /**
-     * @return \Maenbn\OpenAmAuth\Contracts\Curl
+     * @return Curl
      */
     public function newCurl()
     {
-        return new \Maenbn\OpenAmAuth\Curl();
+        return new Curl();
     }
 }
