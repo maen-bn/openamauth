@@ -1,9 +1,8 @@
 {
     "name": "maenbn/openamauth",
     "description": "OpemAmAuth is a client for authenticating against OpenAM in PHP",
-    "keywords": ["opemam auth", "openam authentication", "openam", "OpenAM", "auth",
-      "authentication", "OpenAmAuth", "Laravel", "Laravel OpenAmAuth", "Laravel-OpenAmAuth",
-      "Ben Norcombe", "BenNorcombe"],
+    "keywords": ["authentication","opemam auth", "openam authentication", "openam", "OpenAM", "auth",
+        "OpenAmAuth", "Ben Norcombe", "BenNorcombe"],
     "license": "MIT",
     "authors": [
         {
@@ -12,10 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "illuminate/contracts": "5.2.*",
-        "illuminate/support": "5.2.*"
-
+        "php": ">=5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8.35"
