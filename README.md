@@ -21,7 +21,7 @@ To install the package run the following composer command
 composer require maenbn/openamauth
 ```
 
-##Usage
+## Usage
 ### Setup
 
 To setup an OpenAm object you will need to initialise a config object and pass that to the OpenAm factory:
