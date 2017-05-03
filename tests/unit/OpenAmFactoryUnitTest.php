@@ -10,6 +10,6 @@ class OpenAmFactoryUnitTest extends TestCase
         $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people');
         $config->setSecureCookie(false)->setCookieName('iPlanetDirectoryPro');
         $openAm = \Maenbn\OpenAmAuth\Factories\OpenAmFactory::create($config);
-        $this->assertInstanceOf(\Maenbn\OpenAmAuth\OpenAm::class, $openAm);
+        $this->assertInstanceOf('Maenbn\OpenAmAuth\OpenAm', $openAm);
     }
 }

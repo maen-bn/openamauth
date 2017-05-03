@@ -15,8 +15,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     public function mockCurl($executeReturn = 'Hello')
     {
-        $this->curl = $this->getMockBuilder(Maenbn\OpenAmAuth\Curl::class)
-            ->setMethods(['execute'])
+        $this->curl = $this->getMockBuilder('Maenbn\OpenAmAuth\Curl')
+            ->setMethods(array('execute'))
             ->getMock();
         $this->curl->method('execute')->willReturn($executeReturn);
     }

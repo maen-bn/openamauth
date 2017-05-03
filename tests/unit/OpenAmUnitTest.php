@@ -30,9 +30,9 @@ class OpenAmUnitTest extends TestCase
         $strategiesFactory = new \Maenbn\OpenAmAuth\Factories\StrategiesFactory();
         $this->curl->setResultFormat($strategiesFactory->newJsonToObject());
         if($mockOpenAm) {
-            $openAm = $this->getMockBuilder(Maenbn\OpenAmAuth\OpenAm::class)
-                ->setConstructorArgs([$this->config, $this->curl]);
-            $openAm->setMethods(['validateTokenId']);
+            $openAm = $this->getMockBuilder('Maenbn\OpenAmAuth\OpenAm')
+                ->setConstructorArgs(array($this->config, $this->curl));
+            $openAm->setMethods(array('validateTokenId'));
             $this->openAm = $openAm->getMock();
         }
         else {
@@ -94,11 +94,11 @@ class OpenAmUnitTest extends TestCase
         $mockedResponse = new stdClass();
         $mockedResponse->username = 'abc123';
         $mockedResponse->realm = 'people';
-        $mockedResponse->mail = ['abc123@test.com'];
+        $mockedResponse->mail = array('abc123@test.com');
         $this->mockOpenAm($mockedResponse, false);
         $this->openAm->setTokenId('12321432')->setUid('abc123')->setUser();
         $this->assertObjectHasAttribute('username',$this->openAm->getUser());
-        $this->assertInstanceOf(stdClass::class, $this->openAm->getUser());
+        $this->assertInstanceOf('stdClass', $this->openAm->getUser());
     }
 
     public function testUserIsSetToNullWhenTokenOrUidHasNotBeenSet()
@@ -106,7 +106,7 @@ class OpenAmUnitTest extends TestCase
         $mockedResponse = new stdClass();
         $mockedResponse->username = 'abc123';
         $mockedResponse->realm = 'people';
-        $mockedResponse->mail = ['abc123@test.com'];
+        $mockedResponse->mail = array('abc123@test.com');
         $this->mockOpenAm($mockedResponse, false);
         $this->openAm->setUser();
         $this->assertNull($this->openAm->getUser());

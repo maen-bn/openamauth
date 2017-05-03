@@ -2,7 +2,7 @@
 
 namespace Maenbn\OpenAmAuth;
 
-use Maenbn\OpenAmAuth\Contracts\Curl;
+use Maenbn\OpenAmAuth\Contracts\Curl as CurlContract;
 use Maenbn\OpenAmAuth\Contracts\Config;
 use Maenbn\OpenAmAuth\Contracts\OpenAm as OpenAmContract;
 
@@ -33,7 +33,7 @@ class OpenAm implements OpenAmContract
      */
     protected $user;
 
-    public function __construct(Config $config, Curl $curl)
+    public function __construct(Config $config, CurlContract $curl)
     {
         $this->config = $config;
         $this->curl = $curl;
@@ -62,8 +62,8 @@ class OpenAm implements OpenAmContract
      */
     protected function setCurlHeadersAndOptions()
     {
-        $this->curl->setHeaders(['Content-Type: application/json'])
-            ->setOptions([CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => false]);
+        $this->curl->setHeaders(array('Content-Type: application/json'))
+            ->setOptions(array(CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => false));
         return $this->curl;
     }
 
@@ -118,7 +118,7 @@ class OpenAm implements OpenAmContract
      */
     public function authenticate($username, $password)
     {
-        $credentials = ['X-OpenAM-Username: ' . $username, 'X-OpenAM-Password: ' . $password];
+        $credentials = array('X-OpenAM-Username: ' . $username, 'X-OpenAM-Password: ' . $password);
         $url = $this->config->getUrl(true) . '/authenticate';
         $response = $this->setCurlHeadersAndOptions()->setUrl($url)->post($credentials);
         if(isset($response->tokenId)){
@@ -176,7 +176,7 @@ class OpenAm implements OpenAmContract
 
         $url = $this->config->getUrl(true) . '/users/' . $this->getUid();
         $header = $this->config->getCookieName() . ':' . $this->getTokenId();
-        $this->user = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders([$header])->get();
+        $this->user = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders(array($header))->get();
 
         return $this;
     }
@@ -190,7 +190,7 @@ class OpenAm implements OpenAmContract
     {
         $url = $this->config->getUrl(true) . '/sessions/?_action=logout';
         $header = $this->config->getCookieName()  . ':' . $this->getTokenId();
-        $response = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders([$header])->post();
+        $response = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders(array($header))->post();
 
         if(isset($response->result) && $response->result == 'Successfully logged out'){
             $this->setTokenId(null);
