@@ -2,7 +2,6 @@
 /vendor
 composer.lock
 composer.phar
-phpunit.xml
 tests/config.php
 tests/configOpenSso.php
-
+clover.xml

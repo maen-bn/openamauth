@@ -165,12 +165,10 @@ class Curl implements CurlContract
      */
     public function execute()
     {
-        $url = $this->getUrl();
-
-        if(empty($url)){
+        if(empty($this->getUrl())){
             throw new \Exception("A url must be set before curl can be executed");
         }
-        $this->setOption(CURLOPT_URL, $url)->setOption(CURLOPT_HTTPHEADER, $this->getHeaders());
+        $this->setOption(CURLOPT_URL, $this->getUrl())->setOption(CURLOPT_HTTPHEADER, $this->getHeaders());
 
         $result = curl_exec($this->getSession());
         $this->close()->reset();

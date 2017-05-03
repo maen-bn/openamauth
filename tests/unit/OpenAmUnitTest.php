@@ -98,7 +98,7 @@ class OpenAmUnitTest extends TestCase
         $this->mockOpenAm($mockedResponse, false);
         $this->openAm->setTokenId('12321432')->setUid('abc123')->setUser();
         $this->assertObjectHasAttribute('username',$this->openAm->getUser());
-        $this->assertInstanceOf('stdClass', $this->openAm->getUser());
+        $this->assertInstanceOf(stdClass::class, $this->openAm->getUser());
     }
 
     public function testUserIsSetToNullWhenTokenOrUidHasNotBeenSet()

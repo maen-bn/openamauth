@@ -13,8 +13,7 @@ This package has been changed to be framework agnostic. If you're using **Larave
 
 ## Installation
 
-The tool requires you have [PHP](https://php.net) 5.4.*+ (note 5.4 is not supported unless you are using a RHEL7 distro) 
-and [Composer](https://getcomposer.org).
+The tool requires you have [PHP](https://php.net) 5.6.*+ and [Composer](https://getcomposer.org).
 
 You will also need a [OpenAM](http://openam.forgerock.org/) server.
 
