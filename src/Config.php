@@ -2,24 +2,25 @@
 
 namespace Maenbn\OpenAmAuth;
 
+use Maenbn\OpenAmAuth\Contracts\Config as ConfigContract;
 
-class Config
+class Config implements ConfigContract
 {
 
     /**
      * @var string
      */
-    public $baseUrl;
+    protected $baseUrl;
 
     /**
      * @var string
      */
-    public $realm;
+    protected $realm;
 
     /**
      * @var string
      */
-    public $cookieName;
+    protected $cookieName;
 
     /**
      * Config constructor.
@@ -31,21 +32,34 @@ class Config
     public function __construct($domainName, $uri = 'openam', $realm = null, $cookieName = null)
     {
         $this->setBaseUrl($domainName, $uri)->setRealm($realm);
-        $this->cookieName = $cookieName;
+        $this->setCookieName($cookieName);
     }
 
+    /**
+     * @param $domainName
+     * @param $uri
+     * @return $this
+     */
     protected function setBaseUrl($domainName, $uri)
     {
         $this->baseUrl = $domainName . '/' . $uri . '/json';
         return $this;
     }
 
+    /**
+     * @param $realm
+     * @return $this
+     */
     protected function setRealm($realm)
     {
         $this->realm = $realm;
         return $this;
     }
 
+    /**
+     * @param bool $withRealm
+     * @return string
+     */
     public function getUrl($withRealm = false)
     {
         $url = $this->baseUrl;
@@ -53,5 +67,23 @@ class Config
             $url .= '/' . $this->realm;
         }
         return $url;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCookieName()
+    {
+        return $this->cookieName;
+    }
+
+    /**
+     * @param $cookieName
+     * @return $this
+     */
+    public function setCookieName($cookieName)
+    {
+        $this->cookieName = $cookieName;
+        return $this;
     }
 }

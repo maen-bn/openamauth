@@ -3,8 +3,10 @@
 namespace Maenbn\OpenAmAuth;
 
 use Maenbn\OpenAmAuth\Contracts\Curl;
+use Maenbn\OpenAmAuth\Contracts\Config;
+use Maenbn\OpenAmAuth\Contracts\OpenAm as OpenAmContract;
 
-class OpenAm
+class OpenAm implements OpenAmContract
 {
     /**
      * @var Config
@@ -43,10 +45,10 @@ class OpenAm
      */
     protected function setConfigCookieName()
     {
-        if(is_null($this->config->cookieName)){
-            $this->config->cookieName = $this->setCurlHeadersAndOptions()
+        if(is_null($this->config->getCookieName())){
+            $this->config->setCookieName($this->setCurlHeadersAndOptions()
                 ->setUrl($this->config->getUrl() . '/serverinfo/*')
-                ->get()->cookieName;
+                ->get()->cookieName);
         }
         return $this;
     }
@@ -116,6 +118,8 @@ class OpenAm
     }
 
     /**
+     * Validate a user's session. Requires tokenId to be set. Can be done via setTokenId method
+     *
      * @return bool
      * @throws \Exception
      */
@@ -147,6 +151,9 @@ class OpenAm
     }
 
     /**
+     * Obtain an authenticated user's details. Make sure to set a tokenId and uid via the
+     * setTokenId and setUid methods respectively
+     *
      * @return $this
      */
     public function setUser()
@@ -156,10 +163,31 @@ class OpenAm
         }
 
         $url = $this->config->getUrl(true) . '/users/' . $this->getUid();
-        $header = $this->config->cookieName . ':' . $this->getTokenId();
+        $header = $this->config->getCookieName() . ':' . $this->getTokenId();
         $this->user = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders([$header])->get();
 
         return $this;
+    }
+
+    /**
+     * Logout authenticated user. Make sure to set a tokenId via setTokenId method
+     *
+     * @return bool
+     */
+    public function logout()
+    {
+        $url = $this->config->getUrl(true) . '/sessions/?_action=logout';
+        $header = $this->config->getCookieName()  . ':' . $this->getTokenId();
+        $response = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders([$header])->post();
+
+        if(isset($response->result) && $response->result == 'Successfully logged out'){
+            $this->setTokenId(null);
+            $this->setUid(null);
+            $this->user = null;
+            return true;
+        }
+
+        return false;
     }
 
 }

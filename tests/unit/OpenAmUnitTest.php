@@ -48,6 +48,7 @@ class OpenAmUnitTest extends TestCase
         $curl->setResultFormat($strategyFactory->newJsonToObject());
         $openAm = new \Maenbn\OpenAmAuth\OpenAm($config, $curl);
         $openAm->authenticate('ben203', 'am@:),1D"_:v7j');
+        var_dump($openAm->logout());
     }*/
 
 
@@ -123,14 +124,32 @@ class OpenAmUnitTest extends TestCase
         $this->assertNull($this->openAm->getUser());
     }
 
-    /**
-     * @group failing
-     */
     public function testCookieNameIsSetWhenNotSetOriginallyInConfig()
     {
         $mockedResponse = new stdClass();
         $mockedResponse->cookieName = 'iPlanetDirectoryPro';
         $this->mockOpenAm($mockedResponse, false, true);
-        $this->assertEquals('iPlanetDirectoryPro', $this->config->cookieName);
+        $this->assertEquals('iPlanetDirectoryPro', $this->config->getCookieName());
+    }
+
+    public function testLogout()
+    {
+        $mockedResponse = new stdClass();
+        $mockedResponse->result = 'Successfully logged out';
+        $this->mockOpenAm($mockedResponse, false);
+        $result = $this->openAm->setTokenId('234124')->logout();
+        $this->assertTrue($result);
+        $this->assertNull($this->openAm->getTokenId());
+        $this->assertNull($this->openAm->getUid());
+        $this->assertNull($this->openAm->getUser());
+    }
+
+    public function testFailedLogout()
+    {
+        $mockedResponse = new stdClass();
+        $mockedResponse->result = 'Failed';
+        $this->mockOpenAm($mockedResponse, false);
+        $result = $this->openAm->setTokenId('234124')->logout();
+        $this->assertFalse($result);
     }
 }
