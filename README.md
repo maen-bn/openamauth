@@ -27,8 +27,8 @@ composer require maenbn/openamauth
 To setup an OpenAm object you will need to initialise a config object and pass that to the OpenAm factory:
  
  ```php
- // Construct parameters are address of your OpenAm server, deploy URI (opitional), realm (optional), cookie name (optional)
- $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people', 'iPlanetDirectoryPro');
+ // Construct parameters are address of your OpenAm server, deploy URI (opitional), realm (optional)
+ $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people');
  // OpenAm instance
  $openAm = \Maenbn\OpenAmAuth\Factories\OpenAmFactory::create($config);
  ```
@@ -75,4 +75,18 @@ having to set a token ID. Other wise use the ```setTokenId``` setter before logg
 ```php
 // Return a bool based of success of log out
 $openAm->setTokenId($tokenId)->logout();
+```
+
+### Accessing Config object via OpenAm object
+When the ```Config``` object is injected into the constructor of ```OpenAm``` it'll modify the ```cookieName``` and
+```cookieSecure``` property on ```Config``` if they're set to ```null```. This is done by retrieving this information 
+from the OpenAm server. Obviously you may want to retrieve this data in order to set a cookie on your app correctly. 
+Therefore you can access the ```Config``` object via the ```OpenAm``` object via the getter:
+
+ ```php
+ // Will return Config object
+$config = $openAm->getConfig();
+
+$cookieName = $config->getCookieName();
+$cookieSecure = $cofig->getCookieSecure();
 ```

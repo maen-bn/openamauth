@@ -12,9 +12,9 @@ class ConfigUnitTest extends TestCase
         $this->assertEquals('https://myopenam.com/openam/json', $config->getUrl());
     }
 
-    public function testConfigPropsWithRealmAndCookieNameSet()
+    public function testConfigPropsWithRealm()
     {
-        $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people', 'iPlanetDirectoryPro');
+        $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people');
         $this->assertEquals('https://myopenam.com/openam/json/people', $config->getUrl(true));
     }
 
@@ -29,9 +29,9 @@ class ConfigUnitTest extends TestCase
     public function testCookieSecureSetterAndGetter()
     {
         $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com');
-        $this->assertNull($config->getCookieSecure());
-        $returnedFromSetter = $config->setCookieSecure(true);
+        $this->assertNull($config->getSecureCookie());
+        $returnedFromSetter = $config->setSecureCookie(true);
         $this->assertInstanceOf(\Maenbn\OpenAmAuth\Config::class, $returnedFromSetter);
-        $this->assertTrue($config->getCookieSecure());
+        $this->assertTrue($config->getSecureCookie());
     }
 }

@@ -19,6 +19,6 @@ class OpenAmFactory
         $curl = $curlFactory->newCurl();
         $curl->setResultFormat($strategyFactory->newJsonToObject());
 
-        return new OpenAm($config,$curl);
+        return new OpenAm($config, $curl);
     }
 }

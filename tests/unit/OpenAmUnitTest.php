@@ -19,10 +19,14 @@ class OpenAmUnitTest extends TestCase
     {
         $this->mockCurl($response);
         $cookieName = 'iPlanetDirectoryPro';
+        $secureCookie = false;
         if($noCookieName){
             $cookieName = null;
+            $secureCookie = null;
         }
-        $this->config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people', $cookieName);
+        $this->config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people');
+        $this->config->setCookieName($cookieName);
+        $this->config->setSecureCookie($secureCookie);
         $strategiesFactory = new \Maenbn\OpenAmAuth\Factories\StrategiesFactory();
         $this->curl->setResultFormat($strategiesFactory->newJsonToObject());
         if($mockOpenAm) {
@@ -35,22 +39,6 @@ class OpenAmUnitTest extends TestCase
             $this->openAm = new \Maenbn\OpenAmAuth\OpenAm($this->config, $this->curl);
         }
     }
-
-    /**
-     * @group failing
-     */
-    /*public function testTesty()
-    {
-        $config = new \Maenbn\OpenAmAuth\Config('https://ssocore.exeter.ac.uk', 'openam', 'people');
-        $curlFactory = new \Maenbn\OpenAmAuth\Factories\CurlFactory();
-        $strategyFactory = new \Maenbn\OpenAmAuth\Factories\StrategiesFactory();
-        $curl = $curlFactory->newCurl();
-        $curl->setResultFormat($strategyFactory->newJsonToObject());
-        $openAm = new \Maenbn\OpenAmAuth\OpenAm($config, $curl);
-        $openAm->authenticate('ben203', 'am@:),1D"_:v7j');
-        var_dump($openAm->logout());
-    }*/
-
 
     public function testAuthenticate()
     {
@@ -128,6 +116,7 @@ class OpenAmUnitTest extends TestCase
     {
         $mockedResponse = new stdClass();
         $mockedResponse->cookieName = 'iPlanetDirectoryPro';
+        $mockedResponse->secureCookie = false;
         $this->mockOpenAm($mockedResponse, false, true);
         $this->assertEquals('iPlanetDirectoryPro', $this->config->getCookieName());
     }
@@ -151,5 +140,15 @@ class OpenAmUnitTest extends TestCase
         $this->mockOpenAm($mockedResponse, false);
         $result = $this->openAm->setTokenId('234124')->logout();
         $this->assertFalse($result);
+    }
+
+    public function testConfigGetter()
+    {
+        $mockedResponse = new stdClass();
+        $mockedResponse->cookieName = 'iPlanetDirectoryPro';
+        $mockedResponse->secureCookie = false;
+        $this->mockOpenAm($mockedResponse, false, true);
+        $this->assertEquals('iPlanetDirectoryPro', $this->openAm->getConfig()->getCookieName());
+        $this->assertFalse($this->openAm->getConfig()->getSecureCookie());
     }
 }

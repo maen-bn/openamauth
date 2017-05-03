@@ -24,11 +24,11 @@ interface Config
     /**
      * @return null|bool
      */
-    public function getCookieSecure();
+    public function getSecureCookie();
 
     /**
      * @param string $cookieSecure
      * @return $this
      */
-    public function setCookieSecure($cookieSecure);
+    public function setSecureCookie($cookieSecure);
 }

@@ -25,21 +25,17 @@ class Config implements ConfigContract
     /**
      * @var bool
      */
-    protected $cookieSecure;
+    protected $secureCookie;
 
     /**
      * Config constructor.
      * @param string $domainName
      * @param string $uri
      * @param string|null $realm
-     * @param string|null $cookieName
-     * @param bool|null $cookieSecure
      */
-    public function __construct($domainName, $uri = 'openam', $realm = null, $cookieName = null, $cookieSecure = null)
+    public function __construct($domainName, $uri = 'openam', $realm = null)
     {
         $this->setBaseUrl($domainName, $uri)->setRealm($realm);
-        $this->setCookieName($cookieName);
-        $this->setCookieSecure($cookieSecure);
     }
 
     /**
@@ -97,18 +93,18 @@ class Config implements ConfigContract
     /**
      * @return null|bool
      */
-    public function getCookieSecure()
+    public function getSecureCookie()
     {
-        return $this->cookieSecure;
+        return $this->secureCookie;
     }
 
     /**
-     * @param string $cookieSecure
+     * @param string $secureCookie
      * @return $this
      */
-    public function setCookieSecure($cookieSecure)
+    public function setSecureCookie($secureCookie)
     {
-        $this->cookieSecure = $cookieSecure;
+        $this->secureCookie = $secureCookie;
         return $this;
     }
 }

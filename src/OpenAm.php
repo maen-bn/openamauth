@@ -45,10 +45,14 @@ class OpenAm implements OpenAmContract
      */
     protected function setConfigCookieData()
     {
-        if(is_null($this->config->getCookieName())){
-            $this->config->setCookieName($this->setCurlHeadersAndOptions()
-                ->setUrl($this->config->getUrl() . '/serverinfo/*')
-                ->get()->cookieName);
+        if(is_null($this->config->getCookieName()) || is_null($this->config->getCookieName())){
+            $serverInfo = $this->setCurlHeadersAndOptions()->setUrl($this->config->getUrl() . '/serverinfo/*')->get();
+            if(is_null($this->config->getCookieName())){
+                $this->config->setCookieName($serverInfo->cookieName);
+            }
+            if(is_null($this->config->getSecureCookie())){
+                $this->config->setSecureCookie($serverInfo->secureCookie);
+            }
         }
         return $this;
     }
@@ -61,6 +65,14 @@ class OpenAm implements OpenAmContract
         $this->curl->setHeaders(['Content-Type: application/json'])
             ->setOptions([CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => false]);
         return $this->curl;
+    }
+
+    /**
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
