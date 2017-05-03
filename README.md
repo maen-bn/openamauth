@@ -1,5 +1,6 @@
 # OpenAM Authentication 
 [![Build Status](https://travis-ci.org/maen-bn/openamauth.svg?branch=master)](https://travis-ci.org/maen-bn/openamauth)
+[![Codecov](https://img.shields.io/codecov/c/github/maen-bn/openamauth.svg)](https://codecov.io/gh/maen-bn/openamauth)
 
 This is a PHP library for authenticating users via OpenAM
 
