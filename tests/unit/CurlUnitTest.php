@@ -9,9 +9,9 @@ class CurlUnitTest extends TestCase
     public function testGet()
     {
         $url = 'https://test.com';
-        $result = $this->curl->setUrl($url)->setHeaders([CURLOPT_RETURNTRANSFER => true])
-            ->appendToHeaders([CURLOPT_HEADER, false])
-            ->setOptions([CURLOPT_HTTPHEADER => ['Content-Type: application/json']])
+        $result = $this->curl->setUrl($url)->setHeaders(array(CURLOPT_RETURNTRANSFER => true))
+            ->appendToHeaders(array(CURLOPT_HEADER, false))
+            ->setOptions(array(CURLOPT_HTTPHEADER => array('Content-Type: application/json')))
             ->get();
 
         $this->assertTrue(is_string($result));
@@ -25,10 +25,10 @@ class CurlUnitTest extends TestCase
     public function testPost()
     {
         $url = 'https://test.com/auth';
-        $result = $this->curl->setUrl($url)->setHeaders([CURLOPT_RETURNTRANSFER => true])
-            ->appendToHeaders([CURLOPT_HEADER, false])
-            ->setOptions([CURLOPT_HTTPHEADER => ['Content-Type: application/json']])
-            ->post(['username' => 'abc123']);
+        $result = $this->curl->setUrl($url)->setHeaders(array(CURLOPT_RETURNTRANSFER => true))
+            ->appendToHeaders(array(CURLOPT_HEADER, false))
+            ->setOptions(array(CURLOPT_HTTPHEADER => array('Content-Type: application/json')))
+            ->post(array('username' => 'abc123'));
         $this->assertTrue(is_string($result));
         $this->assertEquals('Hello', $result);
     }
