@@ -1,7 +1,4 @@
 /.idea
 /vendor
 composer.lock
-composer.phar
-tests/config.php
-tests/configOpenSso.php
 clover.xml
