@@ -3,7 +3,7 @@
 namespace Maenbn\OpenAmAuth;
 
 use Maenbn\OpenAmAuth\Contracts\Curl as CurlContract;
-use Maenbn\OpenAmAuth\Contracts\Config;
+use Maenbn\OpenAmAuth\Contracts\Config AS ConfigContract;
 use Maenbn\OpenAmAuth\Contracts\OpenAm as OpenAmContract;
 
 class OpenAm implements OpenAmContract
@@ -33,7 +33,7 @@ class OpenAm implements OpenAmContract
      */
     protected $user;
 
-    public function __construct(Config $config, CurlContract $curl)
+    public function __construct(ConfigContract $config, CurlContract $curl)
     {
         $this->config = $config;
         $this->curl = $curl;
