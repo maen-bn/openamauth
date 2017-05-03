@@ -37,13 +37,13 @@ class OpenAm implements OpenAmContract
     {
         $this->config = $config;
         $this->curl = $curl;
-        $this->setConfigCookieName();
+        $this->setConfigCookieData();
     }
 
     /**
      * @return $this
      */
-    protected function setConfigCookieName()
+    protected function setConfigCookieData()
     {
         if(is_null($this->config->getCookieName())){
             $this->config->setCookieName($this->setCurlHeadersAndOptions()

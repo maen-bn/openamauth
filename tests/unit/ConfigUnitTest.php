@@ -25,4 +25,13 @@ class ConfigUnitTest extends TestCase
         $this->assertInstanceOf(\Maenbn\OpenAmAuth\Config::class, $returnedFromSetter);
         $this->assertEquals('iPlanetDirectoryPro', $config->getCookieName());
     }
+
+    public function testCookieSecureSetterAndGetter()
+    {
+        $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com');
+        $this->assertNull($config->getCookieSecure());
+        $returnedFromSetter = $config->setCookieSecure(true);
+        $this->assertInstanceOf(\Maenbn\OpenAmAuth\Config::class, $returnedFromSetter);
+        $this->assertTrue($config->getCookieSecure());
+    }
 }

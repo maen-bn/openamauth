@@ -13,7 +13,7 @@ class Config implements ConfigContract
     protected $baseUrl;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $realm;
 
@@ -23,16 +23,23 @@ class Config implements ConfigContract
     protected $cookieName;
 
     /**
-     * Config constructor.
-     * @param $domainName
-     * @param $uri
-     * @param $realm
-     * @param null $cookieName
+     * @var bool
      */
-    public function __construct($domainName, $uri = 'openam', $realm = null, $cookieName = null)
+    protected $cookieSecure;
+
+    /**
+     * Config constructor.
+     * @param string $domainName
+     * @param string $uri
+     * @param string|null $realm
+     * @param string|null $cookieName
+     * @param bool|null $cookieSecure
+     */
+    public function __construct($domainName, $uri = 'openam', $realm = null, $cookieName = null, $cookieSecure = null)
     {
         $this->setBaseUrl($domainName, $uri)->setRealm($realm);
         $this->setCookieName($cookieName);
+        $this->setCookieSecure($cookieSecure);
     }
 
     /**
@@ -78,12 +85,30 @@ class Config implements ConfigContract
     }
 
     /**
-     * @param $cookieName
+     * @param string $cookieName
      * @return $this
      */
     public function setCookieName($cookieName)
     {
         $this->cookieName = $cookieName;
+        return $this;
+    }
+
+    /**
+     * @return null|bool
+     */
+    public function getCookieSecure()
+    {
+        return $this->cookieSecure;
+    }
+
+    /**
+     * @param string $cookieSecure
+     * @return $this
+     */
+    public function setCookieSecure($cookieSecure)
+    {
+        $this->cookieSecure = $cookieSecure;
         return $this;
     }
 }

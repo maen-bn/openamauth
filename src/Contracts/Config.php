@@ -16,8 +16,19 @@ interface Config
     public function getCookieName();
 
     /**
-     * @param $cookieName
+     * @param string $cookieName
      * @return $this
      */
     public function setCookieName($cookieName);
+
+    /**
+     * @return null|bool
+     */
+    public function getCookieSecure();
+
+    /**
+     * @param string $cookieSecure
+     * @return $this
+     */
+    public function setCookieSecure($cookieSecure);
 }
