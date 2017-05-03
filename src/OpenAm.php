@@ -62,8 +62,8 @@ class OpenAm implements OpenAmContract
      */
     protected function setCurlHeadersAndOptions()
     {
-        $this->curl->setHeaders(array('Content-Type: application/json'))
-            ->setOptions(array(CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => false));
+        $this->curl->setHeaders(['Content-Type: application/json'])
+            ->setOptions([CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => false]);
         return $this->curl;
     }
 
@@ -118,7 +118,7 @@ class OpenAm implements OpenAmContract
      */
     public function authenticate($username, $password)
     {
-        $credentials = array('X-OpenAM-Username: ' . $username, 'X-OpenAM-Password: ' . $password);
+        $credentials = ['X-OpenAM-Username: ' . $username, 'X-OpenAM-Password: ' . $password];
         $url = $this->config->getUrl(true) . '/authenticate';
         $response = $this->setCurlHeadersAndOptions()->setUrl($url)->post($credentials);
         if(isset($response->tokenId)){
@@ -176,7 +176,7 @@ class OpenAm implements OpenAmContract
 
         $url = $this->config->getUrl(true) . '/users/' . $this->getUid();
         $header = $this->config->getCookieName() . ':' . $this->getTokenId();
-        $this->user = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders(array($header))->get();
+        $this->user = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders([$header])->get();
 
         return $this;
     }
@@ -190,7 +190,7 @@ class OpenAm implements OpenAmContract
     {
         $url = $this->config->getUrl(true) . '/sessions/?_action=logout';
         $header = $this->config->getCookieName()  . ':' . $this->getTokenId();
-        $response = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders(array($header))->post();
+        $response = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders([$header])->post();
 
         if(isset($response->result) && $response->result == 'Successfully logged out'){
             $this->setTokenId(null);
