@@ -67,13 +67,13 @@ interface Curl
      * @param array $data
      * @return mixed
      */
-    public function get(array $data = array());
+    public function get(array $data = []);
 
     /**
      * @param array $data
      * @return mixed
      */
-    public function post(array $data = array());
+    public function post(array $data = []);
 
     /**
      * @return mixed

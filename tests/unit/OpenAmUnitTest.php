@@ -31,8 +31,8 @@ class OpenAmUnitTest extends TestCase
         $this->curl->setResultFormat($strategiesFactory->newJsonToObject());
         if($mockOpenAm) {
             $openAm = $this->getMockBuilder('Maenbn\OpenAmAuth\OpenAm')
-                ->setConstructorArgs(array($this->config, $this->curl));
-            $openAm->setMethods(array('validateTokenId'));
+                ->setConstructorArgs([$this->config, $this->curl]);
+            $openAm->setMethods(['validateTokenId']);
             $this->openAm = $openAm->getMock();
         }
         else {
@@ -94,7 +94,7 @@ class OpenAmUnitTest extends TestCase
         $mockedResponse = new stdClass();
         $mockedResponse->username = 'abc123';
         $mockedResponse->realm = 'people';
-        $mockedResponse->mail = array('abc123@test.com');
+        $mockedResponse->mail = ['abc123@test.com'];
         $this->mockOpenAm($mockedResponse, false);
         $this->openAm->setTokenId('12321432')->setUid('abc123')->setUser();
         $this->assertObjectHasAttribute('username',$this->openAm->getUser());
@@ -106,7 +106,7 @@ class OpenAmUnitTest extends TestCase
         $mockedResponse = new stdClass();
         $mockedResponse->username = 'abc123';
         $mockedResponse->realm = 'people';
-        $mockedResponse->mail = array('abc123@test.com');
+        $mockedResponse->mail = ['abc123@test.com'];
         $this->mockOpenAm($mockedResponse, false);
         $this->openAm->setUser();
         $this->assertNull($this->openAm->getUser());

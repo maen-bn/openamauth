@@ -15,7 +15,7 @@ class Curl implements CurlContract
     /**
      * @var array
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * Curl handle resource
@@ -145,7 +145,7 @@ class Curl implements CurlContract
      * @param array $data
      * @return mixed
      */
-    public function get(array $data = array())
+    public function get(array $data = [])
     {
         return $this->appendToHeaders($data)->execute();
     }
@@ -154,7 +154,7 @@ class Curl implements CurlContract
      * @param array $data
      * @return mixed
      */
-    public function post(array $data = array())
+    public function post(array $data = [])
     {
         return $this->appendToHeaders($data)->setOption(CURLOPT_CUSTOMREQUEST, "POST")->execute();
     }
@@ -207,6 +207,6 @@ class Curl implements CurlContract
      */
     private function reset()
     {
-        $this->setSession()->setHeaders(array())->setUrl('');
+        $this->setSession()->setHeaders([])->setUrl('');
     }
 }
