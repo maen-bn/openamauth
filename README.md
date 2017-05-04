@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/maen-bn/openamauth.svg?branch=4.0)](https://travis-ci.org/maen-bn/openamauth)
 [![Codecov](https://img.shields.io/codecov/c/github/maen-bn/openamauth.svg)](https://codecov.io/gh/maen-bn/openamauth)
 [![Code Climate](https://img.shields.io/codeclimate/github/maen-bn/openamauth.svg)](https://codeclimate.com/github/maen-bn/openamauth)
+[![Code Climate](https://img.shields.io/codeclimate/issues/github/maen-bn/openamauth.svg)](https://codeclimate.com/github/maen-bn/openamauth)
 [![Packagist](https://img.shields.io/packagist/v/maenbn/openamauth.svg)](https://packagist.org/packages/maenbn/openamauth)
 [![Packagist](https://img.shields.io/packagist/dt/maenbn/openamauth.svg)](https://packagist.org/packages/maenbn/openamauth)
 
@@ -33,7 +34,7 @@ To setup an OpenAm object you will need to initialise a config object and pass t
  
  ```php
  // Construct parameters are address of your OpenAm server, realm (optional), deploy URI (optional)
- $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'people', 'openam');
+ $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'myopenamrealm', 'openam');
  // OpenAm instance
  $openAm = \Maenbn\OpenAmAuth\Factories\OpenAmFactory::create($config);
  ```
