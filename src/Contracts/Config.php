@@ -12,7 +12,7 @@ interface Config
     /**
      * @return bool
      */
-    public function getUrlWithRealm();
+    public function isUrlWithRealm();
 
     /**
      * @param bool $urlWithRealm

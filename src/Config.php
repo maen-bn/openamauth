@@ -70,7 +70,7 @@ class Config implements ConfigContract
     public function getUrl()
     {
         $url = $this->baseUrl;
-        if($this->getUrlWithRealm() && !is_null($this->realm)){
+        if($this->isUrlWithRealm() && !is_null($this->realm)){
             $url .= '/' . $this->realm;
         }
         return $url;
@@ -78,7 +78,7 @@ class Config implements ConfigContract
     /**
      * @return bool
      */
-    public function getUrlWithRealm()
+    public function isUrlWithRealm()
     {
         return $this->urlWithRealm;
     }
