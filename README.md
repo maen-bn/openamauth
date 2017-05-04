@@ -1,5 +1,5 @@
 # OpenAM Authentication 
-[![Build Status](https://travis-ci.org/maen-bn/openamauth.svg?branch=master)](https://travis-ci.org/maen-bn/openamauth)
+[![Build Status](https://travis-ci.org/maen-bn/openamauth.svg?branch=4.0)](https://travis-ci.org/maen-bn/openamauth)
 [![Codecov](https://img.shields.io/codecov/c/github/maen-bn/openamauth.svg)](https://codecov.io/gh/maen-bn/openamauth)
 [![Code Climate](https://img.shields.io/codeclimate/github/maen-bn/openamauth.svg)](https://codeclimate.com/github/maen-bn/openamauth)
 [![Packagist](https://img.shields.io/packagist/v/maenbn/openamauth.svg)](https://packagist.org/packages/maenbn/openamauth)
