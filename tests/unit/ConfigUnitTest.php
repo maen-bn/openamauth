@@ -15,7 +15,7 @@ class ConfigUnitTest extends TestCase
     public function testConfigPropsWithRealm()
     {
         $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'people',  'openam');
-        $this->assertEquals('https://myopenam.com/openam/json/people', $config->getUrl(true));
+        $this->assertEquals('https://myopenam.com/openam/json/people', $config->setUrlWithRealm(true)->getUrl());
     }
 
     public function testCookieNameSetterAndGetter()
