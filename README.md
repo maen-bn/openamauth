@@ -31,7 +31,7 @@ To setup an OpenAm object you will need to initialise a config object and pass t
  
  ```php
  // Construct parameters are address of your OpenAm server, deploy URI (opitional), realm (optional)
- $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people');
+ $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'people', 'openam');
  // OpenAm instance
  $openAm = \Maenbn\OpenAmAuth\Factories\OpenAmFactory::create($config);
  ```
