@@ -29,8 +29,8 @@ composer require maenbn/openamauth
 To setup an OpenAm object you will need to initialise a config object and pass that to the OpenAm factory:
  
  ```php
- // Construct parameters are address of your OpenAm server, deploy URI (opitional), realm (optional)
- $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people');
+ // Construct parameters are address of your OpenAm server, realm (optional), deploy URI (opitional)
+ $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'people', 'openam');
  // OpenAm instance
  $openAm = \Maenbn\OpenAmAuth\Factories\OpenAmFactory::create($config);
  ```

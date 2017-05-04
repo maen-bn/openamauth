@@ -33,7 +33,7 @@ class Config implements ConfigContract
      * @param string $uri
      * @param string|null $realm
      */
-    public function __construct($domainName, $uri = 'openam', $realm = null)
+    public function __construct($domainName, $realm = null, $uri = 'openam')
     {
         $this->setBaseUrl($domainName, $uri)->setRealm($realm);
     }
