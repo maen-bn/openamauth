@@ -5,10 +5,20 @@ namespace Maenbn\OpenAmAuth\Contracts;
 interface Config
 {
     /**
-     * @param bool $withRealm
      * @return string
      */
-    public function getUrl($withRealm = false);
+    public function getUrl();
+
+    /**
+     * @return bool
+     */
+    public function getUrlWithRealm();
+
+    /**
+     * @param bool $urlWithRealm
+     * @return $this
+     */
+    public function setUrlWithRealm($urlWithRealm);
 
     /**
      * @return null|string

@@ -1,6 +1,7 @@
 # OpenAM Authentication 
 [![Build Status](https://travis-ci.org/maen-bn/openamauth.svg?branch=master)](https://travis-ci.org/maen-bn/openamauth)
 [![Codecov](https://img.shields.io/codecov/c/github/maen-bn/openamauth.svg)](https://codecov.io/gh/maen-bn/openamauth)
+[![Code Climate](https://img.shields.io/codeclimate/github/maen-bn/openamauth.svg)](https://codeclimate.com/github/maen-bn/openamauth)
 
 This is a PHP library for authenticating users via OpenAM
 
@@ -29,7 +30,7 @@ composer require maenbn/openamauth
 To setup an OpenAm object you will need to initialise a config object and pass that to the OpenAm factory:
  
  ```php
- // Construct parameters are address of your OpenAm server, realm (optional), deploy URI (opitional)
+ // Construct parameters are address of your OpenAm server, realm (optional), deploy URI (optional)
  $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'people', 'openam');
  // OpenAm instance
  $openAm = \Maenbn\OpenAmAuth\Factories\OpenAmFactory::create($config);

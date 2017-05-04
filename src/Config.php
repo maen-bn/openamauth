@@ -28,6 +28,11 @@ class Config implements ConfigContract
     protected $secureCookie;
 
     /**
+     * @var bool
+     */
+    protected $urlWithRealm = false;
+
+    /**
      * Config constructor.
      * @param string $domainName
      * @param string|null $realm
@@ -60,16 +65,33 @@ class Config implements ConfigContract
     }
 
     /**
-     * @param bool $withRealm
      * @return string
      */
-    public function getUrl($withRealm = false)
+    public function getUrl()
     {
         $url = $this->baseUrl;
-        if($withRealm && !is_null($this->realm)){
+        if($this->getUrlWithRealm() && !is_null($this->realm)){
             $url .= '/' . $this->realm;
         }
         return $url;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUrlWithRealm()
+    {
+        return $this->urlWithRealm;
+    }
+    
+    /**
+     * @param bool $urlWithRealm
+     * @return $this
+     */
+    public function setUrlWithRealm($urlWithRealm)
+    {
+        $this->urlWithRealm = $urlWithRealm;
+        return $this;
     }
 
     /**
