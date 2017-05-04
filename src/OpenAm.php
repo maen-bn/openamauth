@@ -119,7 +119,7 @@ class OpenAm implements OpenAmContract
     public function authenticate($username, $password)
     {
         $credentials = array('X-OpenAM-Username: ' . $username, 'X-OpenAM-Password: ' . $password);
-        $url = $this->config->getUrl(true) . '/authenticate';
+        $url = $this->config->setUrlWithRealm(true)->getUrl() . '/authenticate';
         $response = $this->setCurlHeadersAndOptions()->setUrl($url)->post($credentials);
         if(isset($response->tokenId)){
             $tokenValid= $this->setTokenId($response->tokenId)->validateTokenId();
@@ -174,7 +174,7 @@ class OpenAm implements OpenAmContract
             return $this;
         }
 
-        $url = $this->config->getUrl(true) . '/users/' . $this->getUid();
+        $url = $this->config->setUrlWithRealm(true)->getUrl() . '/users/' . $this->getUid();
         $header = $this->config->getCookieName() . ':' . $this->getTokenId();
         $this->user = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders(array($header))->get();
 
@@ -188,7 +188,7 @@ class OpenAm implements OpenAmContract
      */
     public function logout()
     {
-        $url = $this->config->getUrl(true) . '/sessions/?_action=logout';
+        $url = $this->config->setUrlWithRealm(true)->getUrl() . '/sessions/?_action=logout';
         $header = $this->config->getCookieName()  . ':' . $this->getTokenId();
         $response = $this->setCurlHeadersAndOptions()->setUrl($url)->appendToHeaders(array($header))->post();
 
