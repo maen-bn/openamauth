@@ -24,7 +24,7 @@ class OpenAmUnitTest extends TestCase
             $cookieName = null;
             $secureCookie = null;
         }
-        $this->config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'openam', 'people');
+        $this->config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'people', 'openam');
         $this->config->setCookieName($cookieName);
         $this->config->setSecureCookie($secureCookie);
         $strategiesFactory = new \Maenbn\OpenAmAuth\Factories\StrategiesFactory();
