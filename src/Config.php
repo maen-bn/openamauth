@@ -25,7 +25,7 @@ class Config implements ConfigContract
     /**
      * @var bool
      */
-    protected $secureCookie;
+    protected $secureCookie = true;
 
     /**
      * @var bool
@@ -113,15 +113,15 @@ class Config implements ConfigContract
     }
 
     /**
-     * @return null|bool
+     * @return bool
      */
-    public function getSecureCookie()
+    public function isSecureCookie()
     {
         return $this->secureCookie;
     }
 
     /**
-     * @param string $secureCookie
+     * @param bool $secureCookie
      * @return $this
      */
     public function setSecureCookie($secureCookie)
