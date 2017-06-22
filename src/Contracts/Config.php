@@ -34,10 +34,10 @@ interface Config
     /**
      * @return null|bool
      */
-    public function isSecureCookie();
+    public function getSecureCookie();
 
     /**
-     * @param bool $cookieSecure
+     * @param string $cookieSecure
      * @return $this
      */
     public function setSecureCookie($cookieSecure);

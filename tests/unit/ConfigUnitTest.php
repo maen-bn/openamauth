@@ -29,9 +29,9 @@ class ConfigUnitTest extends TestCase
     public function testCookieSecureSetterAndGetter()
     {
         $config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com');
-        $this->assertTrue($config->isSecureCookie());
-        $returnedFromSetter = $config->setSecureCookie(false);
+        $this->assertNull($config->getSecureCookie());
+        $returnedFromSetter = $config->setSecureCookie(true);
         $this->assertInstanceOf(Maenbn\OpenAmAuth\Config::class, $returnedFromSetter);
-        $this->assertFalse($config->isSecureCookie());
+        $this->assertTrue($config->getSecureCookie());
     }
 }

@@ -22,6 +22,7 @@ class OpenAmUnitTest extends TestCase
         $secureCookie = false;
         if($noCookieName){
             $cookieName = null;
+            $secureCookie = null;
         }
         $this->config = new \Maenbn\OpenAmAuth\Config('https://myopenam.com', 'people', 'openam');
         $this->config->setCookieName($cookieName);
@@ -145,9 +146,9 @@ class OpenAmUnitTest extends TestCase
     {
         $mockedResponse = new stdClass();
         $mockedResponse->cookieName = 'iPlanetDirectoryPro';
-        $mockedResponse->secureCookie = null;
+        $mockedResponse->secureCookie = false;
         $this->mockOpenAm($mockedResponse, false, true);
         $this->assertEquals('iPlanetDirectoryPro', $this->openAm->getConfig()->getCookieName());
-        $this->assertFalse($this->openAm->getConfig()->isSecureCookie());
+        $this->assertFalse($this->openAm->getConfig()->getSecureCookie());
     }
 }

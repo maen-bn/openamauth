@@ -50,8 +50,8 @@ class OpenAm implements OpenAmContract
             if(is_null($this->config->getCookieName())){
                 $this->config->setCookieName($serverInfo->cookieName);
             }
-            if(is_null($serverInfo->secureCookie)){
-                $this->config->setSecureCookie(false);
+            if(is_null($this->config->getSecureCookie())){
+                $this->config->setSecureCookie($serverInfo->secureCookie);
             }
         }
         return $this;
