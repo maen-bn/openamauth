@@ -145,7 +145,7 @@ class OpenAm implements OpenAmContract
         $baseResponse->valid = false;
         $baseResponse->uid = null;
 
-        $url = $this->config->getUrl() . '/sessions/' . $this->getTokenId() . '?_action=validate';
+        $url = $this->config->getUrl() . '/sessions/?tokenId=' . $this->getTokenId() . '&_action=validate';
         $response = $this->setCurlHeadersAndOptions()->setUrl($url)->post();
         $response = (object) array_merge((array) $baseResponse, (array) $response);
 
